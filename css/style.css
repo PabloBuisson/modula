@@ -1,0 +1,46 @@
+body {
+    font-family: 'Nunito', sans-serif !important;
+}
+
+p {
+    font-size: 18px;
+}
+
+/* ----- HEADER ----- */
+
+header {
+    padding-top: 120px;
+}
+
+h1::after {
+	content: '';
+	display: block;
+	position: absolute;
+	height: 2px;
+	width: 100%;
+	bottom: -10px;
+	background-color: black;
+}
+
+#row-h2 {
+    margin: 60px 0 60px 0;
+}
+
+#row-h2 .fa-chevron-down {
+    font-size: 25px;
+}
+
+/* ----- MAIN SECTION ----- */
+
+#section-slider {
+    margin-bottom: 80px;
+}
+
+/* ----- FOOTER -----*/
+
+footer {
+    background-color: #343a40;
+    color: white;
+    margin-top: 60px;
+    padding: 80px 0 20px 0;
+}
