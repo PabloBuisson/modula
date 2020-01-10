@@ -1,0 +1,9 @@
+#login-form {
+    padding-top: 150px;
+    padding-bottom: 100px;
+    height: 100vh;
+}
+
+#login-form .login-content {
+    background-color: #3a0918;
+}

@@ -9,7 +9,7 @@
     Contactez-nous en remplissant notre formulaire de contact." />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/front.css" />
     <link rel="stylesheet" href="css/contact.css" />
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,700" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -17,36 +17,9 @@
 </head>
 
 <body>
-    <div id="bloc_page">
+    <div id="bloc-page">
 
-        <nav id="navbar-example2" class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-            <!-- le navbar-expand-md permet de décider quand le menu collapse -->
-            <div class="container">
-                <a class="navbar-brand text-white-50 text-uppercase" href="index.php">
-                    Bordeaux&Vous</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span></button>
-                <ul class="nav collapse navbar-collapse flex-sm-column flex-md-row justify-content-md-end 
-                align-items-sm-start" id="navbarToggler">
-                    <li class="nav-item">
-                        <a class="nav-link text-white text-uppercase" href="index.php">
-                            Accueil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white text-uppercase" href="contact.php">
-                            Contact</a>
-                    </li>
-                    <?php // if ($connected) { 
-                    ?>
-                    <li class="nav-item">
-                        <a class="nav-link text-white text-uppercase" href="admin.php">
-                            <span class="fas fa-user-circle"></span> Admin</a>
-                    </li>
-                    <?php
-                    //}
-                    ?>
-                </ul>
-            </div>
-        </nav>
+        <?php include("nav.php"); ?>
 
         <header id="contact-header">
             <div class="container">
@@ -58,7 +31,7 @@
                     </div>
                     <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2 text-center">
                         <p id="text-form" class="text-center">
-                            Adressez votre demande via le formulaire de contact ci-dessous et 
+                            Adressez votre demande via le formulaire de contact ci-dessous et
                             nous vous répondrons dans les plus brefs délais !
                         </p>
                     </div>
@@ -67,11 +40,14 @@
         </header>
 
         <!-- Modal de l'alerte après l'envoi réussi du mail -->
-        <div class="modal fade <?php // if ($success) { ?>success<?php // } ?>" id="after-email" tabindex="-1" role="dialog" aria-labelledby="votre mail a bien été envoyé" aria-hidden="true">
+        <div class="modal fade <?php // if ($success) { 
+                                ?>success<?php // } 
+                                            ?>" id="after-email" tabindex="-1" role="dialog" aria-labelledby="votre mail a bien été envoyé" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalAlertEmail"><?php // $success ?></h5>
+                        <h5 class="modal-title" id="modalAlertEmail"><?php // $success 
+                                                                        ?></h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -131,48 +107,15 @@
                 </div>
             </div>
         </section>
-                
-        <footer>
-            <div class="container">
-                <div class="row">
-                    <div class="text-center mb-5 col-8 offset-2 text-md-left col-md-4 offset-md-0">
-                        <h5 class="text-uppercase">Plan du site</h5>
-                        <div>
-                            <a href="index.php" class="text-white">Accueil</a><br />
-                            <a href="contact.php" class="text-white">Contact</a>
-                        </div>
-                    </div>
-                    <div class="text-center mb-5 col-8 offset-2 text-md-left col-md-4 offset-md-0">
-                        <h5 class="text-uppercase">Nous retrouver sur</h5>
-                        <div>
-                            <a href="https://www.facebook.com/pabloush.page/" 
-                            title="Page Facebook de l'agence Bordeaux&Vous" 
-                            class="text-white"><span class="fab fa-facebook-square logo"></span>
-                            Facebook</a><br />
-                            <a href="https://twitter.com/pablobuisson" 
-                            title="Compte Twitter de l'agence Bordeaux&Vous" 
-                            class="text-white"><span class="fab fa-twitter-square logo"></span>
-                            Twitter</a><br />
-                        </div>
-                    </div>
-                    <div class="text-center mb-5 col-8 offset-2 text-md-left col-md-4 offset-md-0">
-                        <h5 class="text-uppercase">Admin</h5>
-                        <div>
-                            <a href="admin.php" class="text-white">Se connecter</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
 
-
+        <?php include("footer.php"); ?>
 
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
         </script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
         </script>
-        <script type="text/javascript" src="js/slider.js"></script>
+        <script type="text/javascript" src="js/contact.js"></script>
     </div>
 </body>
 
