@@ -43,8 +43,30 @@
         <section id="section-slider">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-12 text-center">
-                        Mon diaporama ici !
+                    <div id="slider-container" class="col-lg-12 position-relative">
+                        <div class="slide">
+                            <p class="slide-text text-white">Jeu de Piste</p>
+                            <img class="img-fluid" src="img/jeu-piste-bordeaux.jpg" alt="Jeu de Piste et d'Enquêtes sur Bordeaux et la Gironde">
+                        </div>
+                        <div class="slide">
+                            <p class="slide-text text-white">Visite Guidée</p>
+                            <img class="img-fluid" src="img/visite-guidee-bordeaux.jpg" alt="Visites historiques et insolites sur Bordeaux et la Gironde">
+                        </div>
+                        <div class="slide">
+                            <p class="slide-text text-white">Team Building</p>
+                            <img class="img-fluid" src="img/team-building-bordeaux.jpg" alt="Team Building et activités d'équipes sur Bordeaux et la Gironde">
+                        </div>
+                        <!-- buttons prev and next -->
+                        <a href="#void" id="slider-prev" title="Image précédente">
+                            <span class="fas fa-angle-left"></span>
+                        </a>
+                        <a href="#void" id="slider-next" title="Image suivante">
+                            <span class="fas fa-angle-right"></span>
+                        </a>
+                        <!-- barre de progression -->
+                        <div id="timeline-container">
+                            <div id="timeline" data-percent="100%"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -55,19 +77,20 @@
                 <div class="row">
                     <div class="col-lg-10 offset-lg-1 text-center">
                         <p>
-                            Bordeaux&Vous propose un large pannel d'activités pour rendre vos événements
+                            Bordeaux&Vous propose un large pannel d'<strong>activités</strong> sur <strong>Bordeaux</strong>
+                            et la <strong>Gironde</strong> pour rendre vos <strong>événements</strong>
                             mémorables et remarqués : visites insolites, jeux d'enquêtes, team-building,
                             escape games et bien plus encore !
                         </p>
                         <span class="fas fa-fan mb-3"></span>
                         <p>
-                            Nos activités s'adressent autant à un public adulte qu'aux groupes d'enfants.<br />
+                            Nos <strong>activités</strong> s'adressent autant à un public adulte qu'aux groupes d'enfants.<br />
                             Nous travaillons avec des entreprises, des comités d'entreprise,
                             mais aussi des centres de loisirs et des écoles.
-                        <p>
-                        <span class="fas fa-fan"></span>
-                        <p>
-                            Vous souhaitez en savoir plus ou vous souhaitez réserver une activité ?<br />
+                        </p>
+                        <span class="fas fa-fan mb-3"></span>
+                        <p class="mb-5">
+                            Vous souhaitez en savoir plus ou vous souhaitez réserver une <strong>activité</strong> ?<br />
                             Adressez-nous votre demande via notre
                             <a href="contact.php" title="Envoyez-nous un message">formulaire de contact</a>
                             et nous vous répondrons dans les plus brefs délais !
