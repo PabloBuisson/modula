@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -94,7 +98,7 @@
                             Adressez-nous votre demande via notre
                             <a href="contact.php" title="Envoyez-nous un message">formulaire de contact</a>
                             et nous vous répondrons dans les plus brefs délais !
-                        <p>
+                            <p>
                     </div>
                 </div>
             </div>

@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -80,10 +84,6 @@
                                 <input type="email" class="form-control" name="form-mail" id="form-mail" placeholder="votre_adresse@mail.com" required>
                             </div>
                             <div class="form-group">
-                                <label for="form-subject" class="text-white">Objet du message <span>(en moins de 255 caractères)</span></label>
-                                <input type="text" class="form-control" name="form-subject" id="form-subject" placeholder="Objet du message" required>
-                            </div>
-                            <div class="form-group">
                                 <label for="form-message" class="text-white mt-2">Votre message</label>
                                 <textarea class="form-control" name="form-message" id="form-message" rows="3" placeholder="Votre message" required></textarea>
                             </div>
@@ -96,7 +96,8 @@
                             <div class="form-check text-center mt-4">
                                 <input class="form-check-input" type="checkbox" name="request-rgpd" id="request-rgpd">
                                 <label class="form-check-label text-white" for="request-rgpd">
-                                    RGPD
+                                    J'accepte que Bordeaux&Vous conserve mes données <small>(qui ne seront ni vendues
+                                        ni utilisées à des fins commerciales)</small>
                                 </label>
                             </div>
                             <div class="col-lg-12 text-center">
@@ -111,6 +112,7 @@
         <?php include("footer.php"); ?>
 
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
         </script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">

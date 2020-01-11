@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (empty($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+    header('Location: login.php');
+    exit(); // stop right here
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -36,32 +44,59 @@
 
         <div class="container mb-5">
 
-            <h2>Les derniers résultats</h2>
+            <h2>Les derniers messages</h2>
 
-            <div class="table-responsive">
+            <div class="table-responsive mb-5">
                 <table class="table">
                     <thead class="thead-light">
                         <tr>
                             <th scope="col">Date</th>
                             <th scope="col">Heure</th>
                             <th scope="col">Email</th>
+                            <th scope="col">En savoir plus</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
+                            <th scope="row">date</th>
+                            <td>heure</td>
+                            <td>email</td>
+                            <td>
+                                <input type="hidden" name="user-id" value="123">
+                                <input type="submit" value="En savoir plus" name="submit">
+                            </td>
                         </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2>En détails</h2>
+
+            <div class="table-responsive mb-5">
+                <table class="table">
+                    <thead class="thead-light">
                         <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Prénom</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Heure</th>
+                            <th style="width : 50%" scope="col">Message</th>
                         </tr>
+                    </thead>
+                    <tbody>
                         <tr>
-                            <th scope="row">3</th>
-                            <td>Larry</td>
-                            <td>the Bird</td>
+                            <th scope="row">Pablo</th>
+                            <td>Buisson</td>
+                            <td>pablo.buisson@gmail.com</td>
+                            <td>11/01/2020</td>
+                            <td>12:40</td>
+                            <td>Blablablablablablablablabla
+                                dsmcndsddddddddddddddddddddddddddddddddddddddddddddd
+                                dddddddddddddddddddddddddddddddddddddddddddddddd
+                                dddddddddddddddddddddddddddddddddddddddddddddddd
+                                ddddddddddddddddddddddddddddddddd
+                            </td>
                         </tr>
                     </tbody>
                 </table>

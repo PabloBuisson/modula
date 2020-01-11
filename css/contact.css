@@ -11,3 +11,12 @@
 #contact-form h5 {
 	font-size: 2.5rem !important;
 }
+
+label.error {
+	color: #da7300;
+}
+
+#contact-form .btn-primary {
+	background-color: #da7300;
+	border-color: #da7300;
+}

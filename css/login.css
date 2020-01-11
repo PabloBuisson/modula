@@ -1,4 +1,5 @@
 #login-form {
+    margin-bottom: 50px;
     padding-top: 150px;
     padding-bottom: 100px;
     height: 100vh;
@@ -6,4 +7,13 @@
 
 #login-form .login-content {
     background-color: #3a0918;
+}
+
+label.error {
+	color: #da7300;
+}
+
+#form-login .btn-primary {
+	background-color: #da7300;
+	border-color: #da7300;
 }
