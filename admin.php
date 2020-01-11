@@ -4,6 +4,28 @@ if (empty($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     header('Location: login.php');
     exit(); // stop right here
 }
+
+try {
+    $bdd = new PDO('mysql:host=localhost;port=3308;dbname=modula;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)); // affiche des erreurs plus précises)
+} catch (Exception $e) {
+    die('Erreur : ' . $e->getMessage());
+}
+
+$messages = $bdd->query("SELECT id, email, 
+DATE_FORMAT(dateMessage, '%d/%m/%Y') AS dateSend, 
+DATE_FORMAT(timeMessage, '%H:%i:%s') AS timeSend
+FROM message ORDER BY dateMessage, timeMessage DESC");
+
+$message = null;
+
+if (!empty($_POST['user-id'])) {
+    $message = $bdd->prepare("SELECT id, name, firstName, email, message,
+    DATE_FORMAT(dateMessage, '%d/%m/%Y') AS dateSend, 
+    DATE_FORMAT(timeMessage, '%H:%i:%s') AS timeSend
+    FROM message WHERE id = ?");
+    $message->execute(array($_POST['user-id']));
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -57,50 +79,64 @@ if (empty($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">date</th>
-                            <td>heure</td>
-                            <td>email</td>
-                            <td>
-                                <input type="hidden" name="user-id" value="123">
-                                <input type="submit" value="En savoir plus" name="submit">
-                            </td>
-                        </tr>
+                        <?php
+                        // open loop with php
+                        while ($result = $messages->fetch()) {
+                        ?>
+                            <tr>
+                                <th scope="row"><?= htmlspecialchars($result['dateSend']); ?></th>
+                                <td><?= htmlspecialchars($result['timeSend']); ?></td>
+                                <td><?= htmlspecialchars($result['email']); ?></td>
+                                <td>
+                                    <form action="" method="post">
+                                        <input type="hidden" name="user-id" value="<?= htmlspecialchars($result['id']); ?>">
+                                        <input class="btn btn-primary" type="submit" value="En savoir plus" name="submit">
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php // end loop with php
+                        }
+                        ?>
                     </tbody>
                 </table>
             </div>
 
-            <h2>En détails</h2>
+            <?php if ($message) { ?>
+                <h2>En détails</h2>
 
-            <div class="table-responsive mb-5">
-                <table class="table">
-                    <thead class="thead-light">
-                        <tr>
-                            <th scope="col">Nom</th>
-                            <th scope="col">Prénom</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Heure</th>
-                            <th style="width : 50%" scope="col">Message</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">Pablo</th>
-                            <td>Buisson</td>
-                            <td>pablo.buisson@gmail.com</td>
-                            <td>11/01/2020</td>
-                            <td>12:40</td>
-                            <td>Blablablablablablablablabla
-                                dsmcndsddddddddddddddddddddddddddddddddddddddddddddd
-                                dddddddddddddddddddddddddddddddddddddddddddddddd
-                                dddddddddddddddddddddddddddddddddddddddddddddddd
-                                ddddddddddddddddddddddddddddddddd
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                <div class="table-responsive mb-5">
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Prénom</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Heure</th>
+                                <th style="width : 50%" scope="col">Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            // open loop with php
+                            while ($result = $message->fetch()) {
+                            ?>
+                                <tr>
+                                    <th scope="row"><?= htmlspecialchars($result['name']); ?></th>
+                                    <td><?= htmlspecialchars($result['firstName']); ?></td>
+                                    <td><?= htmlspecialchars($result['email']); ?></td>
+                                    <td><?= htmlspecialchars($result['dateSend']); ?></td>
+                                    <td><?= htmlspecialchars($result['timeSend']); ?></td>
+                                    <td><?= htmlspecialchars($result['message']); ?>
+                                    </td>
+                                </tr>
+                            <?php // end loop with php
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php } ?>
 
         </div>
 
