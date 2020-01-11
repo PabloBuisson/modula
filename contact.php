@@ -1,5 +1,72 @@
 <?php
 session_start();
+$error = null;
+
+if (!empty($_POST)) {
+
+    $validation = true;
+
+    if (empty($_POST['firstName']) || empty($_POST['name']) || empty($_POST['email']) || empty($_POST['message'])) {
+        $validation = false;
+        $error = 'un champ est vide';
+    }
+    if ($_POST['firstName'] > 255 || $_POST['name'] > 255) {
+        $validation = false;
+        $error = 'un champ est trop long';
+    }
+    if (!preg_match("#^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $_POST['email'])) {
+        $validation = false;
+        $error = 'mail incompatible';
+    }
+    if (empty($_POST['request-check'])) {
+        $validation = false;
+        $error = 'vérification manquante';
+    }
+
+    if ($validation) {
+
+        try {
+            $bdd = new PDO('mysql:host=localhost;port=3308;dbname=modula;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)); // affiche des erreurs plus précises)
+        } catch (Exception $e) {
+            die('Erreur : ' . $e->getMessage());
+        }
+
+        $rgpd = 0;
+        if (!empty($_POST['request-rgpd'])) {
+            $rgpd = 1;
+        }
+
+        $query = $bdd->prepare("INSERT INTO message(name, firstName, email, message, rgpd, dateMessage, timeMessage, ip) 
+        VALUES(:name, :firstName, :email, :message, :rgpd, CURDATE(), CURTIME(), 0)");
+        $query->execute(array(
+            'name' => $_POST['name'],
+            'firstName' => $_POST['firstName'],
+            'email' => $_POST['email'],
+            'message' => $_POST['message'],
+            'rgpd' => $rgpd
+        ));
+    }
+
+
+    // si toutes les conditions sont remplies, on peut envoyer le mail
+/*     if ($validation) {
+        $to = "pablo.buisson@gmail.com";
+        $subject = $_POST['form-subject'];
+        // Si les lignes ont plus de 70 cactères, on utilise wordwrap()
+        $message = wordwrap($_POST['form-message'], 70, "\r\n");
+        $headers = "From:" . htmlspecialchars($_POST['form-firstName']) . " " . htmlspecialchars($_POST['form-name']) . "<" . htmlspecialchars($_POST['form-mail']) . ">\r\n";
+        $headers .= "Reply-to:" . htmlspecialchars($_POST['form-mail']) . "\r\n";
+        $headers .= "Content-type: text/html\r\n";
+        $success = mail($to, $subject, $message, $headers);
+        if (!$success) {
+            $errorMessage = error_get_last()['message'];
+            print_r(error_get_last());
+            echo '<p class="text-danger">Problème de envoi</p>';
+        }
+    } else {
+        echo '<p class="text-danger">Problème de champ</p>';
+    } */
+}
 ?>
 
 <!DOCTYPE html>
@@ -44,14 +111,13 @@ session_start();
         </header>
 
         <!-- Modal de l'alerte après l'envoi réussi du mail -->
-        <div class="modal fade <?php // if ($success) { 
-                                ?>success<?php // } 
-                                            ?>" id="after-email" tabindex="-1" role="dialog" aria-labelledby="votre mail a bien été envoyé" aria-hidden="true">
+        <div class="modal fade <?php // if ($success) {  ?>success<?php // } ?>" 
+            id="after-email" tabindex="-1" role="dialog" aria-labelledby="votre mail a bien été envoyé" 
+            aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalAlertEmail"><?php // $success 
-                                                                        ?></h5>
+                        <h5 class="modal-title" id="modalAlertEmail"><?php // $success ?></h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -67,25 +133,26 @@ session_start();
             <div class="container bg-dark">
                 <div class="row">
                     <div class="px-sm-5 px-lg-0 col-lg-10 offset-lg-1 mb-5 mt-5">
+                        <?php if ($error) { ?> <p class="text-center text-danger my-5">Message d'erreur : <?= $error ?></p> <?php } ?>
                         <h5 class="text-center mt-5 mb-5 text-white">Formulaire de contact</h5>
                         <form id="form-contact" action="" method="post">
                             <div class="form-row">
                                 <div class="form-group col-12 col-md-6">
                                     <label for="form-firstname" class="text-white">Votre prénom</label>
-                                    <input type="text" class="form-control" name="form-firstname" id="form-firstname" placeholder="Prénom" required>
+                                    <input type="text" class="form-control" name="firstName" id="form-firstname" placeholder="Prénom" required>
                                 </div>
                                 <div class="form-group col-12 col-md-6">
                                     <label for="form-name" class="text-white">Votre nom</label>
-                                    <input type="text" class="form-control" name="form-name" id="form-name" placeholder="Nom" required>
+                                    <input type="text" class="form-control" name="name" id="form-name" placeholder="Nom" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="form-mail" class="text-white">Votre adresse e-mail</label>
-                                <input type="email" class="form-control" name="form-mail" id="form-mail" placeholder="votre_adresse@mail.com" required>
+                                <input type="email" class="form-control" name="email" id="form-mail" placeholder="votre_adresse@mail.com" required>
                             </div>
                             <div class="form-group">
                                 <label for="form-message" class="text-white mt-2">Votre message</label>
-                                <textarea class="form-control" name="form-message" id="form-message" rows="3" placeholder="Votre message" required></textarea>
+                                <textarea class="form-control" name="message" id="form-message" rows="3" placeholder="Votre message" required></textarea>
                             </div>
                             <div class="form-check text-center mt-4">
                                 <input class="form-check-input" type="checkbox" name="request-check" id="request-check">
