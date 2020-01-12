@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    //console.log($('#request-rgpd').val());
+
     $.validator.addMethod("mailverified", function (value, element, params) {
         let pattern = new RegExp(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/);
         return pattern.test(value);
@@ -30,34 +32,66 @@ $(document).ready(function () {
             }
         },
         messages: {
-            "form-mail": {
+            "email": {
                 required: "Veuillez saisir votre adresse mail",
                 email: "Veuillez saisir une adresse mail valide",
                 mailverified: "Veuillez saisir une adresse mail valide", // remplace la propriété mail
                 minlength: "Veuillez saisir une adresse mail valide",
                 maxlength: "Veuillez saisir une adresse mail valide"
             },
-            "form-firstname": {
+            "firstName": {
                 required: "Veuillez saisir votre prénom",
                 maxlength: "Veuillez saisir un prénom moins long"
             },
-            "form-name": {
+            "name": {
                 required: "Veuillez saisir votre nom",
                 maxlength: "Veuillez saisir un nom moins long"
             },
-            "form-message": {
+            "message": {
                 required: "Veuillez saisir votre message"
             },
             "request-check": {
                 required: "Veuillez confirmer votre demande"
             }
+        },
+        submitHandler: function (form) {
+            $.ajax({
+                url: 'contact.php',
+                type: 'POST',
+                dataType: 'html',
+                data: {
+                    firstName: $('#form-firstname').val(),
+                    name: $('#form-name').val(),
+                    email: $('#form-mail').val(),
+                    message: $('#form-message').val(),
+                    "request-check": $('#request-check').val(),
+                    "request-rgpd": $('#request-rgpd').val(),
+                },
+            })
+                .done(function () {
+                    console.log("success");
+                })
+                .fail(function () {
+                    console.log("error");
+                    $('#modalAlertEmail').text("Erreur lors de l'envoi, veuillez réessayer.");
+                    $('#mail-success').prop('aria-labelledby', 'Votre mail a rencontré une erreur.');
+                    $('#mail-success').modal('toggle');
+                })
+                .always((response) => {
+                    console.log("complete");
+                    // display modal of success
+                    $('#mail-success').modal('toggle');
+                    // remove values
+                    $('#form-firstname').val('');
+                    $('#form-name').val('');
+                    $('#form-mail').val('');
+                    $('#form-message').val('');
+                    $('#request-rgpd').prop('checked', false);
+                    $('#request-rgpd').val('');
+                    $('#request-check').prop('checked', false);
+                    $('#request-check').val('');
+                });
+            return false; // required to block normal submit since you used ajax
         }
     });
-
-    // modal de confirmation de l'envoi
-/*     $('#after-email.success').modal('toggle');
-    $('#after-email .close, #after-email .close-button').click(function (e) {
-        $('#after-email').removeClass('success');
-    }); */
-
 });

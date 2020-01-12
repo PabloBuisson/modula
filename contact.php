@@ -48,24 +48,23 @@ if (!empty($_POST)) {
     }
 
 
-    // si toutes les conditions sont remplies, on peut envoyer le mail
-/*     if ($validation) {
+    if ($validation) {
         $to = "pablo.buisson@gmail.com";
-        $subject = $_POST['form-subject'];
+        $subject = "Nouveau message depuis bordeaux-et-vous.com";
         // Si les lignes ont plus de 70 cactères, on utilise wordwrap()
-        $message = wordwrap($_POST['form-message'], 70, "\r\n");
-        $headers = "From:" . htmlspecialchars($_POST['form-firstName']) . " " . htmlspecialchars($_POST['form-name']) . "<" . htmlspecialchars($_POST['form-mail']) . ">\r\n";
-        $headers .= "Reply-to:" . htmlspecialchars($_POST['form-mail']) . "\r\n";
+        $message = wordwrap($_POST['message'], 70, "\r\n");
+        $headers = "From:" . htmlspecialchars($_POST['firstName']) . " " . htmlspecialchars($_POST['name']) . "<" . htmlspecialchars($_POST['email']) . ">\r\n";
+        $headers .= "Reply-to:" . htmlspecialchars($_POST['email']) . "\r\n";
         $headers .= "Content-type: text/html\r\n";
         $success = mail($to, $subject, $message, $headers);
-        if (!$success) {
-            $errorMessage = error_get_last()['message'];
-            print_r(error_get_last());
-            echo '<p class="text-danger">Problème de envoi</p>';
-        }
-    } else {
-        echo '<p class="text-danger">Problème de champ</p>';
-    } */
+
+            if (!$success) {
+                $errorMessage = error_get_last()['message'];
+                print_r(error_get_last());
+                echo '<p class="text-danger">Problème d\'envo0i</p>';
+            }
+    }
+
 }
 ?>
 
@@ -111,13 +110,12 @@ if (!empty($_POST)) {
         </header>
 
         <!-- Modal de l'alerte après l'envoi réussi du mail -->
-        <div class="modal fade <?php // if ($success) {  ?>success<?php // } ?>" 
-            id="after-email" tabindex="-1" role="dialog" aria-labelledby="votre mail a bien été envoyé" 
-            aria-hidden="true">
+        <div class="modal fade" id="mail-success" tabindex="-1" role="dialog" 
+            aria-labelledby="votre mail a bien été envoyé" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalAlertEmail"><?php // $success ?></h5>
+                        <h5 class="modal-title" id="modalAlertEmail">Message bien envoyé !</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -168,7 +166,7 @@ if (!empty($_POST)) {
                                 </label>
                             </div>
                             <div class="col-lg-12 text-center">
-                                <button type="submit" class="btn btn-primary mt-4 px-4">Envoyer</button>
+                                <button id="form-submit" type="submit" class="btn btn-primary mt-4 px-4">Envoyer</button>
                             </div>
                         </form>
                     </div>
