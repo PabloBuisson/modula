@@ -1,16 +1,23 @@
 $(document).ready(function () {
 
+    // get user IP
+    let ipAdress = '';
+    $.getJSON('https://json.geoiplookup.io/api?callback=?', function (data) {
+        ipAdress = data.ip;
+    });
+
+    // validator for email
     $.validator.addMethod("mailverified", function (value, element, params) {
         let pattern = new RegExp(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/);
         return pattern.test(value);
     }, "Veuillez saisir une adresse mail valide");
 
-    // la méthode principale de jQuery validation plugin
+    // main method of jQuery validation plugin
     $('#form-contact').validate({
         rules: {
             "form-mail": {
                 required: true,
-                mailverified: true, // remplace la propriété mail
+                mailverified: true, // replace mail property
                 minlength: 3,
                 maxlength: 100
             },
@@ -33,7 +40,7 @@ $(document).ready(function () {
             "email": {
                 required: "Veuillez saisir votre adresse mail",
                 email: "Veuillez saisir une adresse mail valide",
-                mailverified: "Veuillez saisir une adresse mail valide", // remplace la propriété mail
+                mailverified: "Veuillez saisir une adresse mail valide", // replace mail property
                 minlength: "Veuillez saisir une adresse mail valide",
                 maxlength: "Veuillez saisir une adresse mail valide"
             },
@@ -62,8 +69,9 @@ $(document).ready(function () {
                     name: $('#form-name').val(),
                     email: $('#form-mail').val(),
                     message: $('#form-message').val(),
-                    "request-check": $('#request-rgpd').is(':checked'),
+                    "request-check": $('#request-check').is(':checked'),
                     "request-rgpd": $('#request-rgpd').is(':checked'),
+                    ip: ipAdress
                 },
             })
                 .done(function () {
@@ -87,7 +95,7 @@ $(document).ready(function () {
                     $('#request-rgpd').prop('checked', false);
                     $('#request-check').prop('checked', false);
                 });
-            return false; // required to block normal submit since you used ajax
+            return false; // required to block normal submit since ajax is used
         }
     });
 });

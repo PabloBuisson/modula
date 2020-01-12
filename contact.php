@@ -18,7 +18,7 @@ if (!empty($_POST)) {
         $validation = false;
         $error = 'mail incompatible';
     }
-    if ($_POST['request-check'] === false) {
+    if ($_POST['request-check'] === "false") {
         $validation = false;
         $error = 'vérification manquante';
     }
@@ -31,19 +31,22 @@ if (!empty($_POST)) {
             die('Erreur : ' . $e->getMessage());
         }
 
+        // 0 = user decline the use of his data
+        // 1 = user ok with the use of his data
         $rgpd = 0;
-        if ($_POST['request-rgpd'] === true) {
+        if ($_POST['request-rgpd'] === "true") {
             $rgpd = 1;
         }
 
         $query = $bdd->prepare("INSERT INTO message(name, firstName, email, message, rgpd, dateMessage, timeMessage, ip) 
-        VALUES(:name, :firstName, :email, :message, :rgpd, CURDATE(), CURTIME(), 0)");
+        VALUES(:name, :firstName, :email, :message, :rgpd, CURDATE(), CURTIME(), :ip)");
         $query->execute(array(
             'name' => $_POST['name'],
             'firstName' => $_POST['firstName'],
             'email' => $_POST['email'],
             'message' => $_POST['message'],
-            'rgpd' => $rgpd
+            'rgpd' => $rgpd,
+            'ip' => $_POST['ip']
         ));
     }
 
@@ -61,7 +64,7 @@ if (!empty($_POST)) {
             if (!$success) {
                 $errorMessage = error_get_last()['message'];
                 print_r(error_get_last());
-                echo '<p class="text-danger">Problème d\'envo0i</p>';
+                echo '<p class="text-danger">Problème d\'envoi</p>';
             }
     }
 
