@@ -1,7 +1,5 @@
 $(document).ready(function () {
 
-    //console.log($('#request-rgpd').val());
-
     $.validator.addMethod("mailverified", function (value, element, params) {
         let pattern = new RegExp(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/);
         return pattern.test(value);
@@ -64,8 +62,8 @@ $(document).ready(function () {
                     name: $('#form-name').val(),
                     email: $('#form-mail').val(),
                     message: $('#form-message').val(),
-                    "request-check": $('#request-check').val(),
-                    "request-rgpd": $('#request-rgpd').val(),
+                    "request-check": $('#request-rgpd').is(':checked'),
+                    "request-rgpd": $('#request-rgpd').is(':checked'),
                 },
             })
                 .done(function () {
@@ -87,9 +85,7 @@ $(document).ready(function () {
                     $('#form-mail').val('');
                     $('#form-message').val('');
                     $('#request-rgpd').prop('checked', false);
-                    $('#request-rgpd').val('');
                     $('#request-check').prop('checked', false);
-                    $('#request-check').val('');
                 });
             return false; // required to block normal submit since you used ajax
         }

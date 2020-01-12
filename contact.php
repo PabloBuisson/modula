@@ -18,7 +18,7 @@ if (!empty($_POST)) {
         $validation = false;
         $error = 'mail incompatible';
     }
-    if (empty($_POST['request-check'])) {
+    if ($_POST['request-check'] === false) {
         $validation = false;
         $error = 'vérification manquante';
     }
@@ -32,7 +32,7 @@ if (!empty($_POST)) {
         }
 
         $rgpd = 0;
-        if (!empty($_POST['request-rgpd'])) {
+        if ($_POST['request-rgpd'] === true) {
             $rgpd = 1;
         }
 
