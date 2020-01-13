@@ -6,17 +6,27 @@ if (!empty($_POST)) { // if form is sent
 
     $validation = true;
 
-    if (empty($_POST['login']) || empty($_POST['password'])) {
+    if (empty($_POST['username']) || empty($_POST['password'])) {
         $validation = false;
         $error = 1;
     }
-    if (strlen($_POST['login']) > 100 || strlen($_POST['password']) > 100) {
+    if (strlen($_POST['username']) > 100 || strlen($_POST['password']) > 100) {
         $validation = false;
         $error = 1;
     }
     if ($validation) {
-        $verifiedAdmin = password_verify($_POST['login'], '$2y$10$CZojDjdI6/YIhQtne0oby..JdEAOZUXkk0qUDFkxQLAl22AKO0xxi');
-        $verifiedPassword = password_verify($_POST['password'], '$2y$10$CZojDjdI6/YIhQtne0oby..JdEAOZUXkk0qUDFkxQLAl22AKO0xxi');
+
+        try {
+            $bdd = new PDO('mysql:host=localhost;port=3308;dbname=modula;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)); // affiche des erreurs plus précises)
+        } catch (Exception $e) {
+            die('Erreur : ' . $e->getMessage());
+        }
+
+        $query = $bdd->query("SELECT * FROM user");
+        $login = $query->fetch();
+
+        $verifiedAdmin = password_verify($_POST['username'], $login['username']);
+        $verifiedPassword = password_verify($_POST['password'], $login['password']);
         
         if ($verifiedAdmin && $verifiedPassword) {
             $_SESSION['role'] = 'admin';
@@ -68,7 +78,7 @@ if (!empty($_POST)) { // if form is sent
                                 <?php } 
                                 ?>
                                 <label for="pseudo" class="text-white">Identifiant</label><br />
-                                <input type="text" value="" class="form-control" name="login" id="pseudo" placeholder="Veuillez saisir votre identifiant" required>
+                                <input type="text" value="" class="form-control" name="username" id="pseudo" placeholder="Veuillez saisir votre identifiant" required>
                             </div>
                             <div class="form-group">
                                 <label for="password" class="text-white">Mot de passe</label>

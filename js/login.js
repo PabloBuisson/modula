@@ -3,7 +3,7 @@ $(document).ready(function () {
     // la méthode principale de jQuery validation plugin
     $('#form-login').validate({
         rules: {
-            "login": {
+            "username": {
                 required: true
             },
             "password": {
@@ -11,7 +11,7 @@ $(document).ready(function () {
             }
         },
         messages: {
-            "login": {
+            "username": {
                 required: "Veuillez saisir votre pseudo"
             },
             "password": {
