@@ -31,9 +31,6 @@ $(document).ready(function () {
             },
             "form-message": {
                 required: true
-            },
-            "request-check": {
-                required: true
             }
         },
         messages: {
@@ -54,9 +51,6 @@ $(document).ready(function () {
             },
             "message": {
                 required: "Veuillez saisir votre message"
-            },
-            "request-check": {
-                required: "Veuillez confirmer votre demande"
             }
         },
         submitHandler: function (form) {
@@ -69,7 +63,7 @@ $(document).ready(function () {
                     name: $('#form-name').val(),
                     email: $('#form-mail').val(),
                     message: $('#form-message').val(),
-                    "request-check": $('#request-check').is(':checked'),
+                    captcha: grecaptcha.getResponse(),
                     "request-rgpd": $('#request-rgpd').is(':checked'),
                     ip: ipAdress
                 },
@@ -85,15 +79,19 @@ $(document).ready(function () {
                 })
                 .always((response) => {
                     console.log("complete");
-                    // display modal of success
-                    $('#mail-success').modal('toggle');
-                    // remove values
-                    $('#form-firstname').val('');
-                    $('#form-name').val('');
-                    $('#form-mail').val('');
-                    $('#form-message').val('');
-                    $('#request-rgpd').prop('checked', false);
-                    $('#request-check').prop('checked', false);
+                    if (response) {
+                        console.log(response);
+                    } else {
+                       // display modal of success
+                        $('#mail-success').modal('toggle');
+                        // remove values
+                        $('#form-firstname').val('');
+                        $('#form-name').val('');
+                        $('#form-mail').val('');
+                        $('#form-message').val('');
+                        $('#request-rgpd').prop('checked', false);
+                        $('#request-check').prop('checked', false); 
+                    }
                 });
             return false; // required to block normal submit since ajax is used
         }

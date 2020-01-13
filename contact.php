@@ -18,9 +18,22 @@ if (!empty($_POST)) {
         $validation = false;
         $error = 'mail incompatible';
     }
-    if ($_POST['request-check'] === "false") {
+/*  if ($_POST['request-check'] === "false") {
         $validation = false;
         $error = 'vérification manquante';
+    } */
+
+    // verify reCaptcha
+    $secret = "6Lf8ys4UAAAAALIl2jVlBjIQ2Y9kay1HZV2yar7S";
+    $response = $_POST["captcha"];
+    $verify = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret={$secret}&response={$response}");
+    $captcha_success = json_decode($verify);
+
+    if ($captcha_success->success == false) {
+        $validation = false;
+        echo 'vérification manquante';
+        die();
+        // echo 'verification manquante' to the callback AJAX
     }
 
     if ($validation) {
@@ -61,13 +74,12 @@ if (!empty($_POST)) {
         $headers .= "Content-type: text/html\r\n";
         $success = mail($to, $subject, $message, $headers);
 
-            if (!$success) {
-                $errorMessage = error_get_last()['message'];
-                print_r(error_get_last());
-                echo '<p class="text-danger">Problème d\'envoi</p>';
-            }
+        if (!$success) {
+            $errorMessage = error_get_last()['message'];
+            print_r(error_get_last());
+            echo '<p class="text-danger">Problème d\'envoi</p>';
+        }
     }
-
 }
 ?>
 
@@ -87,6 +99,14 @@ if (!empty($_POST)) {
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,700" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/5814eb4b63.js" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        var onloadCallback = function() {
+            grecaptcha.render('captcha-widget', {
+                'sitekey': "6Lf8ys4UAAAAAPyDfrFSs3A70xG799sYRvaKOHL2"
+            });
+        };
+    </script>
+
 </head>
 
 <body>
@@ -113,8 +133,7 @@ if (!empty($_POST)) {
         </header>
 
         <!-- Modal de l'alerte après l'envoi réussi du mail -->
-        <div class="modal fade" id="mail-success" tabindex="-1" role="dialog" 
-            aria-labelledby="votre mail a bien été envoyé" aria-hidden="true">
+        <div class="modal fade" id="mail-success" tabindex="-1" role="dialog" aria-labelledby="votre mail a bien été envoyé" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -155,22 +174,25 @@ if (!empty($_POST)) {
                                 <label for="form-message" class="text-white mt-2">Votre message</label>
                                 <textarea class="form-control" name="message" id="form-message" rows="3" placeholder="Votre message" required></textarea>
                             </div>
-                            <div class="form-check text-center mt-4">
+                            <div class="form-group mt-5 mb-3">
+                                <div class="col-8 offset-4" id="captcha-widget"></div>
+                            </div>
+                                <!-- <div class="form-check text-center mt-4">
                                 <input class="form-check-input" type="checkbox" name="request-check" id="request-check">
                                 <label class="form-check-label text-white" for="request-check">
                                     Je ne suis pas un Robot ♪
                                 </label>
-                            </div>
-                            <div class="form-check text-center mt-4">
-                                <input class="form-check-input" type="checkbox" name="request-rgpd" id="request-rgpd">
-                                <label class="form-check-label text-white" for="request-rgpd">
-                                    J'accepte que Bordeaux&Vous conserve mes données <small>(qui ne seront ni vendues
-                                        ni utilisées à des fins commerciales)</small>
-                                </label>
-                            </div>
-                            <div class="col-lg-12 text-center">
-                                <button id="form-submit" type="submit" class="btn btn-primary mt-4 px-4">Envoyer</button>
-                            </div>
+                            </div> -->
+                                <div class="form-check text-center mt-4">
+                                    <input class="form-check-input" type="checkbox" name="request-rgpd" id="request-rgpd">
+                                    <label class="form-check-label text-white" for="request-rgpd">
+                                        J'accepte que Bordeaux&Vous conserve mes données <small>(qui ne seront ni vendues
+                                            ni utilisées à des fins commerciales)</small>
+                                    </label>
+                                </div>
+                                <div class="col-lg-12 text-center">
+                                    <button id="form-submit" type="submit" class="btn btn-primary mt-4 px-4">Envoyer</button>
+                                </div>
                         </form>
                     </div>
                 </div>
@@ -179,6 +201,7 @@ if (!empty($_POST)) {
 
         <?php include("footer.php"); ?>
 
+        <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
