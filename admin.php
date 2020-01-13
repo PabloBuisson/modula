@@ -18,12 +18,15 @@ FROM message ORDER BY dateMessage, timeMessage DESC");
 
 $message = null;
 
-if (!empty($_POST['user-id'])) {
-    $message = $bdd->prepare("SELECT id, name, firstName, email, message,
-    DATE_FORMAT(dateMessage, '%d/%m/%Y') AS dateSend, 
-    DATE_FORMAT(timeMessage, '%H:%i:%s') AS timeSend
-    FROM message WHERE id = ?");
-    $message->execute(array($_POST['user-id']));
+if (!empty($_GET['action'])) {
+
+   if ($_GET['action'] === 'details' && !empty($_GET['user-id'])) {
+        $message = $bdd->prepare("SELECT id, name, firstName, email, message,
+        DATE_FORMAT(dateMessage, '%d/%m/%Y') AS dateSend, 
+        DATE_FORMAT(timeMessage, '%H:%i:%s') AS timeSend
+        FROM message WHERE id = ?");
+        $message->execute(array($_GET['user-id']));
+    } 
 }
 
 ?>
@@ -50,17 +53,18 @@ if (!empty($_POST['user-id'])) {
         <div class="container">
             <div class="jumbotron">
                 <div class="d-flex flex-column flex-xl-row flex-wrap justify-content-between align-items-xl-center">
+                    <div class="order-lg-1 order-xl-2 mb-4 mb-xl-0">
+                        <a href="index.php" class="d-inline-block btn btn-outline-secondary" role="button">
+                            Revenir sur le site
+                        </a>
+                    </div>
                     <h1 class="h1">Bienvenue sur votre tableau de bord ! </h1>
-                    <a href="index.php" class="d-inline-block btn btn-outline-secondary" role="button">
-                        Revenir sur le site
-                    </a>
                 </div>
                 <hr class="my-4" />
                 <p class="lead">
                     Vous retrouverez ici l'ensemble des formulaires de contact envoyés,
                     triés par date et heure d'envoi.
                 </p>
-
             </div>
         </div>
 
@@ -93,6 +97,19 @@ if (!empty($_POST['user-id'])) {
                                         <input class="btn btn-primary" type="submit" value="En savoir plus" name="submit">
                                     </form>
                                 </td>
+                                <!-- AJAX -->
+                                <td>
+                                    <button id="details-message" type="button" class="btn btn-primary" data-user-id="<?= htmlspecialchars($result['id']); ?>">
+                                        En savoir plus
+                                    </button>
+                                </td>
+                                <td>
+                                    <!-- meilleure solution : avec un GET -->
+                                    <a title="Avoir plus d'informations" href="admin.php?action=details&user-id=<?= htmlspecialchars($result['id']); ?>" 
+                                        class="btn btn-primary" role="button">
+                                        En savoir plus
+                                    </a>
+                                </td>
                             </tr>
                         <?php // end loop with php
                         }
@@ -102,7 +119,7 @@ if (!empty($_POST['user-id'])) {
             </div>
 
             <?php if ($message) { ?>
-                <h2>En détails</h2>
+                <h2 id="title-details">En détails</h2>
 
                 <div class="table-responsive mb-5">
                     <table class="table">
