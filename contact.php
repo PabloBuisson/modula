@@ -18,10 +18,6 @@ if (!empty($_POST)) {
         $validation = false;
         $error = 'mail incompatible';
     }
-/*  if ($_POST['request-check'] === "false") {
-        $validation = false;
-        $error = 'vérification manquante';
-    } */
 
     // verify reCaptcha
     $secret = "6Lf8ys4UAAAAALIl2jVlBjIQ2Y9kay1HZV2yar7S";
@@ -107,7 +103,6 @@ if (!empty($_POST)) {
             });
         };
     </script>
-
 </head>
 
 <body>
@@ -154,6 +149,7 @@ if (!empty($_POST)) {
             <div class="container bg-dark">
                 <div class="row">
                     <div class="px-sm-5 px-lg-0 col-lg-10 offset-lg-1 mb-5 mt-5">
+                        <p id="error-ajax" class="text-center text-danger my-5"></p>
                         <?php if ($error) { ?> <p class="text-center text-danger my-5">Message d'erreur : <?= $error ?></p> <?php } ?>
                         <h5 class="text-center mt-5 mb-5 text-white">Formulaire de contact</h5>
                         <form id="form-contact" action="" method="post">
@@ -176,24 +172,18 @@ if (!empty($_POST)) {
                                 <textarea class="form-control" name="message" id="form-message" rows="3" placeholder="Votre message" required></textarea>
                             </div>
                             <div class="form-group mt-5 mb-3">
-                                <div class="col-8 offset-4" id="captcha-widget"></div>
+                                <div class="col-md-8 offset-md-4" id="captcha-widget"></div>
                             </div>
-                                <!-- <div class="form-check text-center mt-4">
-                                <input class="form-check-input" type="checkbox" name="request-check" id="request-check">
-                                <label class="form-check-label text-white" for="request-check">
-                                    Je ne suis pas un Robot ♪
+                            <div class="form-check text-center mt-4">
+                                <input class="form-check-input" type="checkbox" name="request-rgpd" id="request-rgpd">
+                                <label class="form-check-label text-white" for="request-rgpd">
+                                    J'accepte que Bordeaux&Vous conserve mes données <small>(qui ne seront ni vendues
+                                        ni utilisées à des fins commerciales)</small>
                                 </label>
-                            </div> -->
-                                <div class="form-check text-center mt-4">
-                                    <input class="form-check-input" type="checkbox" name="request-rgpd" id="request-rgpd">
-                                    <label class="form-check-label text-white" for="request-rgpd">
-                                        J'accepte que Bordeaux&Vous conserve mes données <small>(qui ne seront ni vendues
-                                            ni utilisées à des fins commerciales)</small>
-                                    </label>
-                                </div>
-                                <div class="col-lg-12 text-center">
-                                    <button id="form-submit" type="submit" class="btn btn-primary mt-4 px-4">Envoyer</button>
-                                </div>
+                            </div>
+                            <div class="col-lg-12 text-center">
+                                <button id="form-submit" type="submit" class="btn btn-primary mt-4 px-4">Envoyer</button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -212,5 +202,4 @@ if (!empty($_POST)) {
         <script type="text/javascript" src="js/contact.js"></script>
     </div>
 </body>
-
 </html>

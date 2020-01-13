@@ -14,6 +14,7 @@ if (!empty($_POST)) { // if form is sent
         $validation = false;
         $error = 1;
     }
+
     if ($validation) {
 
         try {
@@ -27,7 +28,7 @@ if (!empty($_POST)) { // if form is sent
 
         $verifiedAdmin = password_verify($_POST['username'], $login['username']);
         $verifiedPassword = password_verify($_POST['password'], $login['password']);
-        
+
         if ($verifiedAdmin && $verifiedPassword) {
             $_SESSION['role'] = 'admin';
             header('Location: admin.php');
@@ -38,16 +39,14 @@ if (!empty($_POST)) { // if form is sent
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="fr">
 
 <head>
     <meta charset="UTF-8">
-    <title>Contactez-nous | Le site officiel de Bordeaux&Vous</title>
-    <meta name="description" content="Vous recherchez une information, 
-    vous souhaitez réserver une activité ? 
-    Contactez-nous en remplissant notre formulaire de contact." />
+    <title>Se connecter | Le site officiel de Bordeaux&Vous</title>
+    <meta name="description" content="Connectez-vous avec vos idenfifiants 
+        pour profiter des fonctionnalités du blog de Bordeaux&Vous." />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/front.css" />
@@ -69,13 +68,13 @@ if (!empty($_POST)) { // if form is sent
                     <div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3 login-content pb-5 px-5">
                         <form id="form-login" action="" method="post">
                             <div class="form-group mt-5">
-                                <?php if ($error) { 
+                                <?php if ($error) {
                                 ?>
-                                <p class="text-center text-danger mt-3">
-                                    Mauvais identifiant ou mot de passe.
-                                    Veuillez réessayer à nouveau.
-                                </p>
-                                <?php } 
+                                    <p class="text-center text-danger mt-3">
+                                        Mauvais identifiant ou mot de passe.
+                                        Veuillez réessayer à nouveau.
+                                    </p>
+                                <?php }
                                 ?>
                                 <label for="pseudo" class="text-white">Identifiant</label><br />
                                 <input type="text" value="" class="form-control" name="username" id="pseudo" placeholder="Veuillez saisir votre identifiant" required>

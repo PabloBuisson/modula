@@ -1,11 +1,11 @@
 #text-form {
-	margin-top: 50px !important;
 	font-size: 1.5rem !important;
+	margin-top: 50px !important;
 }
 
 #contact-form {
-	margin-top: 50px;
 	margin-bottom: 100px;
+	margin-top: 50px;
 }
 
 #contact-form h5 {
@@ -19,4 +19,8 @@ label.error {
 #contact-form .btn-primary {
 	background-color: #da7300;
 	border-color: #da7300;
+}
+
+#error-ajax {
+	display: none;
 }

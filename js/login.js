@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    // la méthode principale de jQuery validation plugin
+    // main method of jQuery validation plugin
     $('#form-login').validate({
         rules: {
             "username": {

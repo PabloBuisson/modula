@@ -21,13 +21,13 @@ header {
 }
 
 h1::after {
-	content: '';
-	display: block;
-	position: absolute;
-	height: 2px;
-	width: 100%;
-	bottom: -10px;
 	background-color: black;
+    bottom: -10px;
+    content: '';
+	display: block;
+    height: 2px;
+    position: absolute;
+	width: 100%;
 }
 
 #row-h2 {
@@ -49,13 +49,13 @@ h1::after {
 }
 
 #slider-container .slide {
-    position: absolute;
-    width: 100%;
+    display: none;
     height: 100%;
-    top: 0;
     left: 0;
     overflow: hidden;
-    display: none;
+    position: absolute;
+    top: 0;
+    width: 100%;
 }
 
 #slider-container .slide-text {
@@ -69,66 +69,66 @@ h1::after {
 }
 
 #slider-container img {
-    width: auto;
+    bottom: 0;
     height: auto;
     position: absolute;
-    bottom: 0;
+    width: auto;
 }
 
 #slider-next {
-    position: absolute;
     display: block;
+    background-color: rgba(0, 0, 0, 0.5);
     border-radius: 6px 0 0 6px;
-    width: 40px;
+    font-size: 30px;
     height: 50px;
+    position: absolute;
+    right: 0;
     top: 50%;
     transform: translateY(-50%);
-    right: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    font-size: 30px;
+    width: 40px;
     z-index: 6;
 }
 
 #slider-prev {
-    position: absolute;
-    display: block;
+    background-color: rgba(0, 0, 0, 0.5);
     border-radius: 0 6px 6px 0;
-    width: 40px;
+    display: block;
+    font-size: 30px;
     height: 50px;
+    left: 0;
+    position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    font-size: 30px;
+    width: 40px;
     z-index: 6;
 }
 
 #slider-prev .fa-angle-left {
+    color: white;
     padding-top: 8px;
     padding-left: 10px;
-    color: white;
 }
 
 #slider-next .fa-angle-right {
+    color: white;
     padding-top: 10px;
     padding-left: 15px;
-    color: white;
 }
 
 #timeline-container {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 6px;
     background-color: rgba(0, 0, 0, 0.3);
+    bottom: 0;
+    height: 6px;
+    left: 0;
     overflow: hidden;
+    position: absolute;
+    width: 100%;
 }
 
 #timeline {
+    background-color: #c21c4e;
     height: 100%;
     width: 0;
-    background-color: #c21c4e;
 }
 
 @media all and (max-width: 992px) { /* responsive écrans tablette (768px-992px) */
@@ -141,23 +141,22 @@ h1::after {
 @media all and (max-width: 576px) { /* responsive smartphones (320px-576px) */
 		
 	#slider-container {
-		width: 100%;
-		height: 200px;
+        height: 200px;
+        width: 100%;
 	}
 
 	#slider-container .slide-text {
-		left: 0;
-		right: 0;
-		height: auto;
-		text-align: center;
-		transform: translateX(-50%);
-		transform: translateY(-50%);
-		top: 50%;
-        width: 100%;
         font-size: 1rem;
+        height: auto;
+        left: 0;
+        right: 0;
+		text-align: center;
+        top: 50%;
+        transform: translateX(-50%);
+		transform: translateY(-50%);
+        width: 100%;
 	}
 }
-
 
 /* ----- SECTION PRESENTATION ----- */
 

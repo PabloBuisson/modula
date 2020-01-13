@@ -11,11 +11,13 @@ try {
     die('Erreur : ' . $e->getMessage());
 }
 
+// fetch all the posted messages
 $messages = $bdd->query("SELECT id, email, 
 DATE_FORMAT(dateMessage, '%d/%m/%Y') AS dateSend, 
 DATE_FORMAT(timeMessage, '%H:%i:%s') AS timeSend
 FROM message ORDER BY dateMessage, timeMessage DESC");
 
+// fetch the selected message
 $message = null;
 
 if (!empty($_GET['action'])) {
@@ -28,7 +30,6 @@ if (!empty($_GET['action'])) {
         $message->execute(array($_GET['user-id']));
     } 
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -37,7 +38,8 @@ if (!empty($_GET['action'])) {
 <head>
     <meta charset="UTF-8">
     <title>Tableau de Bord | Le site officiel de Bordeaux&Vous</title>
-    <meta name="description" content="Votre tableau de bord" />
+    <meta name="description" content="Bienvenue sur votre tableau de bord,
+    où vous retrouverez les derniers messages postés" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/admin.css" />
@@ -54,7 +56,7 @@ if (!empty($_GET['action'])) {
             <div class="jumbotron">
                 <div class="d-flex flex-column flex-xl-row flex-wrap justify-content-between align-items-xl-center">
                     <div class="order-lg-1 order-xl-2 mb-4 mb-xl-0">
-                        <a href="index.php" class="d-inline-block btn btn-outline-secondary" role="button">
+                        <a href="index.php" title="Revenir sur la page d'accueil" class="d-inline-block btn btn-outline-secondary" role="button">
                             Revenir sur le site
                         </a>
                     </div>
@@ -92,19 +94,6 @@ if (!empty($_GET['action'])) {
                                 <td><?= htmlspecialchars($result['timeSend']); ?></td>
                                 <td><?= htmlspecialchars($result['email']); ?></td>
                                 <td>
-                                    <form action="" method="post">
-                                        <input type="hidden" name="user-id" value="<?= htmlspecialchars($result['id']); ?>">
-                                        <input class="btn btn-primary" type="submit" value="En savoir plus" name="submit">
-                                    </form>
-                                </td>
-                                <!-- AJAX -->
-                                <td>
-                                    <button id="details-message" type="button" class="btn btn-primary" data-user-id="<?= htmlspecialchars($result['id']); ?>">
-                                        En savoir plus
-                                    </button>
-                                </td>
-                                <td>
-                                    <!-- meilleure solution : avec un GET -->
                                     <a title="Avoir plus d'informations" href="admin.php?action=details&user-id=<?= htmlspecialchars($result['id']); ?>" 
                                         class="btn btn-primary" role="button">
                                         En savoir plus
@@ -154,11 +143,7 @@ if (!empty($_GET['action'])) {
                     </table>
                 </div>
             <?php } ?>
-
         </div>
-
-
-
 
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
@@ -168,5 +153,4 @@ if (!empty($_GET['action'])) {
         <script type="text/javascript" src="js/admin.js"></script>
     </div>
 </body>
-
 </html>

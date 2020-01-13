@@ -67,7 +67,7 @@ session_start();
                         <a href="#void" id="slider-next" title="Image suivante">
                             <span class="fas fa-angle-right"></span>
                         </a>
-                        <!-- barre de progression -->
+                        <!-- progress bar -->
                         <div id="timeline-container">
                             <div id="timeline" data-percent="100%"></div>
                         </div>

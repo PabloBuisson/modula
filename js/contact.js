@@ -81,10 +81,11 @@ $(document).ready(function () {
                     console.log("complete");
                     // response from contact.php
                     if (response.startsWith("Erreur")) {
-                        $('#modalAlertEmail').text(response);
-                        $('#mail-success').prop('aria-labelledby', 'Votre mail a rencontré une erreur.');
-                        // display modal of error
-                        $('#mail-success').modal('toggle');
+                        $('#error-ajax').text(response);
+                        $('#error-ajax').css('display', 'block');
+                        $('html, body').animate({
+                            scrollTop: $('#error-ajax').offset().top - 100
+                        }, 1000);
                     } else {
                         // display modal of success
                         $('#mail-success').modal('toggle');

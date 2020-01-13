@@ -8,7 +8,7 @@ if (!empty($_SESSION['role']) && $_SESSION['role'] === 'admin') {
 ?>
 
 <nav id="navbar-example2" class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-    <!-- le navbar-expand-md permet de décider quand le menu collapse -->
+    <!-- navbar-expand-md decide when nav collapse -->
     <div class="container">
         <a class="navbar-brand text-white-50 text-uppercase" href="index.php">
             Bordeaux&Vous</a>
