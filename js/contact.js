@@ -15,21 +15,21 @@ $(document).ready(function () {
     // main method of jQuery validation plugin
     $('#form-contact').validate({
         rules: {
-            "form-mail": {
+            "email": {
                 required: true,
                 mailverified: true, // replace mail property
                 minlength: 3,
                 maxlength: 100
             },
-            "form-firstname": {
+            "firstName": {
                 required: true,
-                maxlength: 255
+                maxlength: 100
             },
-            "form-name": {
+            "name": {
                 required: true,
-                maxlength: 255
+                maxlength: 100
             },
-            "form-message": {
+            "message": {
                 required: true
             }
         },
@@ -57,7 +57,7 @@ $(document).ready(function () {
             $.ajax({
                 url: 'contact.php',
                 type: 'POST',
-                dataType: 'html',
+                dataType: 'text',
                 data: {
                     firstName: $('#form-firstname').val(),
                     name: $('#form-name').val(),
@@ -79,10 +79,14 @@ $(document).ready(function () {
                 })
                 .always((response) => {
                     console.log("complete");
-                    if (response) {
-                        console.log(response);
+                    // response from contact.php
+                    if (response.startsWith("Erreur")) {
+                        $('#modalAlertEmail').text(response);
+                        $('#mail-success').prop('aria-labelledby', 'Votre mail a rencontré une erreur.');
+                        // display modal of error
+                        $('#mail-success').modal('toggle');
                     } else {
-                       // display modal of success
+                        // display modal of success
                         $('#mail-success').modal('toggle');
                         // remove values
                         $('#form-firstname').val('');
@@ -90,7 +94,7 @@ $(document).ready(function () {
                         $('#form-mail').val('');
                         $('#form-message').val('');
                         $('#request-rgpd').prop('checked', false);
-                        $('#request-check').prop('checked', false); 
+                        $('#request-check').prop('checked', false);
                     }
                 });
             return false; // required to block normal submit since ajax is used

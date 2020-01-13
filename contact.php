@@ -10,7 +10,7 @@ if (!empty($_POST)) {
         $validation = false;
         $error = 'un champ est vide';
     }
-    if ($_POST['firstName'] > 255 || $_POST['name'] > 255) {
+    if ($_POST['firstName'] > 100 || $_POST['name'] > 100) {
         $validation = false;
         $error = 'un champ est trop long';
     }
@@ -31,9 +31,10 @@ if (!empty($_POST)) {
 
     if ($captcha_success->success == false) {
         $validation = false;
-        echo 'vérification manquante';
-        die();
-        // echo 'verification manquante' to the callback AJAX
+        $error = 'vérification manquante';
+        // AJAX callback
+        echo 'Erreur : vérification manquante';
+        exit();
     }
 
     if ($validation) {
