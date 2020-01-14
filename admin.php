@@ -15,7 +15,7 @@ try {
 $messages = $bdd->query("SELECT id, email, 
 DATE_FORMAT(dateMessage, '%d/%m/%Y') AS dateSend, 
 DATE_FORMAT(timeMessage, '%H:%i:%s') AS timeSend
-FROM message ORDER BY dateMessage, timeMessage DESC");
+FROM message ORDER BY dateMessage DESC, timeMessage DESC");
 
 // fetch the selected message
 $message = null;
