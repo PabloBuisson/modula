@@ -19,8 +19,17 @@ if (!empty($_POST)) {
         $error = 'mail incompatible';
     }
 
+    try {
+        $bdd = new PDO('mysql:host=localhost;port=3308;dbname=modula;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)); // affiche des erreurs plus précises)
+    } catch (Exception $e) {
+        die('Erreur : ' . $e->getMessage());
+    }
+
+    $query = $bdd->query("SELECT * FROM captcha");
+    $captcha = $query->fetch();
+
     // verify reCaptcha
-    $secret = "6Lf8ys4UAAAAALIl2jVlBjIQ2Y9kay1HZV2yar7S";
+    $secret = $captcha['secretKey'];
     $response = $_POST["captcha"];
     $verify = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret={$secret}&response={$response}");
     $captcha_success = json_decode($verify);
@@ -34,13 +43,7 @@ if (!empty($_POST)) {
     }
 
     if ($validation) {
-
-        try {
-            $bdd = new PDO('mysql:host=localhost;port=3308;dbname=modula;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)); // affiche des erreurs plus précises)
-        } catch (Exception $e) {
-            die('Erreur : ' . $e->getMessage());
-        }
-
+        
         // 0 = user decline the use of his data
         // 1 = user ok with the use of his data
         $rgpd = 0;
@@ -64,8 +67,9 @@ if (!empty($_POST)) {
     if ($validation) {
         $to = "pablo.buisson@gmail.com";
         $subject = "Nouveau message depuis bordeaux-et-vous.com";
+        $securedMessage = htmlspecialchars($_POST['message']);
         // Si les lignes ont plus de 70 cactères, on utilise wordwrap()
-        $message = wordwrap($_POST['message'], 70, "\r\n");
+        $message = wordwrap($securedMessage, 70, "\r\n");
         $headers = "From:" . htmlspecialchars($_POST['firstName']) . " " . htmlspecialchars($_POST['name']) . "<" . htmlspecialchars($_POST['email']) . ">\r\n";
         $headers .= "Reply-to:" . htmlspecialchars($_POST['email']) . "\r\n";
         $headers .= "Content-type: text/html\r\n";
@@ -99,7 +103,7 @@ if (!empty($_POST)) {
     <script type="text/javascript">
         var onloadCallback = function() {
             grecaptcha.render('captcha-widget', {
-                'sitekey': "6Lf8ys4UAAAAAPyDfrFSs3A70xG799sYRvaKOHL2"
+                'sitekey': "6LeIK88UAAAAAIe_PpJz_BoSqpnExKJK27B9WF4H"
             });
         };
     </script>
@@ -128,7 +132,7 @@ if (!empty($_POST)) {
             </div>
         </header>
 
-        <!-- Modal de l'alerte après l'envoi réussi du mail -->
+        <!-- modal alert after successful send -->
         <div class="modal fade" id="mail-success" tabindex="-1" role="dialog" aria-labelledby="votre mail a bien été envoyé" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -202,4 +206,5 @@ if (!empty($_POST)) {
         <script type="text/javascript" src="js/contact.js"></script>
     </div>
 </body>
+
 </html>
