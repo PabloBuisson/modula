@@ -51,6 +51,30 @@ if (!empty($_POST)) {
             $rgpd = 1;
         }
 
+        // ONLINE SOLUTION FOR IP ADRESS
+        /* function getClientIpServer()
+        {
+            $ipAdress = '';
+            if ($_SERVER['HTTP_CLIENT_IP'])
+                $ipAdress = $_SERVER['HTTP_CLIENT_IP'];
+            else if ($_SERVER['HTTP_X_FORWARDED_FOR'])
+                $ipAdress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+            else if ($_SERVER['HTTP_X_FORWARDED'])
+                $ipAdress = $_SERVER['HTTP_X_FORWARDED'];
+            else if ($_SERVER['HTTP_FORWARDED_FOR'])
+                $ipAdress = $_SERVER['HTTP_FORWARDED_FOR'];
+            else if ($_SERVER['HTTP_FORWARDED'])
+                $ipAdress = $_SERVER['HTTP_FORWARDED'];
+            else if ($_SERVER['REMOTE_ADDR'])
+                $ipAdress = $_SERVER['REMOTE_ADDR'];
+            else
+                $ipAdress = 'UNKNOWN';
+
+            return $ipAdress;
+        }
+
+        $ipAdress = getClientIpServer(); */
+
         $query = $bdd->prepare("INSERT INTO message(name, firstName, email, message, rgpd, dateMessage, timeMessage, ip) 
         VALUES(:name, :firstName, :email, :message, :rgpd, CURDATE(), CURTIME(), :ip)");
         $query->execute(array(
